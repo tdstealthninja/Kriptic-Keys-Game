@@ -10,35 +10,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 49280855235843976, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_Name
-      value: Base W MoveArtifact
+      value: Base A MoveArtifact
       objectReference: {fileID: 0}
     - target: {fileID: 1921839819406531991, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_text
-      value: W
+      value: A
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_SizeDelta.x
@@ -78,11 +78,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 61
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 74
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -123,9 +123,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   artifactName: Move Forward
-  artifactDescription: WAAAAAA!!!!!
-  artifactKeycode: 1
+  artifactDescription: AAAAAAAAA!!!!!
+  artifactKeycode: 10
+  artifactCooldown: 3
+  hasCooldown: 0
   movementSpeedMultiplyer: 1
   priority: 1
-  moveDirection: 0
+  moveDirection: 2
   canHoverOverHazard: 0

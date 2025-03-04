@@ -8,7 +8,7 @@ using Utils;
 public class DynamicPlayerController : MonoBehaviour
 {
     #region Private Variables
-    // Start is called before the first frame update
+    
     [SerializeField]
     private SerializedDictionary<ArtifactKeycode, ArtifactBase> artifactKeys = new SerializedDictionary<ArtifactKeycode, ArtifactBase>();
 
@@ -30,6 +30,8 @@ public class DynamicPlayerController : MonoBehaviour
     public List<ArtifactBase> heldArtifacts = new List<ArtifactBase>();
 
     #endregion
+
+    // Start is called before the first frame update
     void Start()
     {
         

@@ -17,7 +17,19 @@ public class ArtifactBase : MonoBehaviour
 
     protected virtual void Awake()
     {
+        /// Change later to be player specific when item is picked up
         DynamicPlayerController playerController = FindObjectOfType<DynamicPlayerController>();
+        AddThisArtifactToKeyboard(playerController);
+        
+    }
+
+    public virtual void ActivateArtifact(DynamicPlayerController playerController)
+    {
+
+    }
+
+    public virtual void AddThisArtifactToKeyboard(DynamicPlayerController playerController)
+    {
         if (artifactKeycode != ArtifactKeycode.NONE)
         {
             bool artifactAdded = playerController.AddArtifactToKeyboard(this, artifactKeycode);
@@ -35,11 +47,6 @@ public class ArtifactBase : MonoBehaviour
         {
             playerController.heldArtifacts.Add(this);
         }
-    }
-
-    public virtual void ActivateArtifact(DynamicPlayerController playerController)
-    {
-
     }
 
 }
