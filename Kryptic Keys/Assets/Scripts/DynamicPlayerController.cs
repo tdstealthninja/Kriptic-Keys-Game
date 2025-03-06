@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEditor;
 using AYellowpaper.SerializedCollections;
 using Utils;
 
@@ -22,6 +23,9 @@ public class DynamicPlayerController : MonoBehaviour
 
     [SerializeField]
     private float baseMoveSpeed = 1f;
+
+    [SerializeField]
+    private ArtifactInventoryUI artifactInventory;
 
     #endregion
 
@@ -47,11 +51,60 @@ public class DynamicPlayerController : MonoBehaviour
     {
         #region Key Pressed Checks
 
+        #region Row 1
+        if (playerInput.actions["Q"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.Q);
+        }
+
         if (playerInput.actions["W"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.W);
         }
 
+        if (playerInput.actions["E"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.E);
+        }
+
+        if (playerInput.actions["R"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.R);
+        }
+
+        if (playerInput.actions["T"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.T);
+        }
+
+        if (playerInput.actions["Y"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.Y);
+        }
+
+        if (playerInput.actions["U"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.U);
+        }
+
+        if (playerInput.actions["I"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.I);
+        }
+
+        if (playerInput.actions["O"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.O);
+        }
+
+        if (playerInput.actions["P"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.P);
+        }
+
+        #endregion
+
+        #region Row 2
         if (playerInput.actions["A"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.A);
@@ -67,15 +120,76 @@ public class DynamicPlayerController : MonoBehaviour
             ActivateArtifact(ArtifactKeycode.D);
         }
 
-        if (playerInput.actions["Q"].IsPressed())
+        if (playerInput.actions["F"].IsPressed())
         {
-            ActivateArtifact(ArtifactKeycode.Q);
+            ActivateArtifact(ArtifactKeycode.F);
+        }
+
+        if (playerInput.actions["G"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.G);
+        }
+
+        if (playerInput.actions["H"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.H);
+        }
+
+        if (playerInput.actions["J"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.J);
+        }
+
+        if (playerInput.actions["K"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.K);
+        }
+
+        if (playerInput.actions["L"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.L);
+        }
+
+        #endregion
+
+        #region Row 3
+
+        if (playerInput.actions["Z"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.Z);
         }
 
         if (playerInput.actions["X"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.X);
         }
+
+        if (playerInput.actions["C"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.C);
+        }
+
+        if (playerInput.actions["V"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.V);
+        }
+
+        if (playerInput.actions["B"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.B);
+        }
+
+        if (playerInput.actions["N"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.N);
+        }
+
+        if (playerInput.actions["M"].IsPressed())
+        {
+            ActivateArtifact(ArtifactKeycode.M);
+        }
+
+        #endregion
 
         #endregion
 
@@ -125,6 +239,24 @@ public class DynamicPlayerController : MonoBehaviour
     {
         return artifactKeys.TryAdd(keycode, artifact);
     }
+
+    public bool RemoveArtifactFromKeyboard(ArtifactKeycode keycode)
+    {
+        return artifactKeys.Remove(keycode);
+    }
+
+    
+    public void AddArtifactToInventory(ArtifactBase artifact)
+    {
+        Debug.Log("Add to Inventory");
+        if (artifactInventory)
+        {
+            artifactInventory.AddToInventory(artifact);
+            heldArtifacts.Add(artifact);
+        }
+    }
+    
+    
 
 }
 
