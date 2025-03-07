@@ -56,50 +56,90 @@ public class DynamicPlayerController : MonoBehaviour
         {
             ActivateArtifact(ArtifactKeycode.Q);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.Q);
+        }
 
         if (playerInput.actions["W"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.W);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.W);
         }
 
         if (playerInput.actions["E"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.E);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.E);
+        }
 
         if (playerInput.actions["R"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.R);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.R);
         }
 
         if (playerInput.actions["T"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.T);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.T);
+        }
 
         if (playerInput.actions["Y"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.Y);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.Y);
         }
 
         if (playerInput.actions["U"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.U);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.U);
+        }
 
         if (playerInput.actions["I"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.I);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.I);
         }
 
         if (playerInput.actions["O"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.O);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.O);
+        }
 
         if (playerInput.actions["P"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.P);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.P);
         }
 
         #endregion
@@ -109,45 +149,81 @@ public class DynamicPlayerController : MonoBehaviour
         {
             ActivateArtifact(ArtifactKeycode.A);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.A);
+        }
 
         if (playerInput.actions["S"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.S);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.S);
         }
 
         if (playerInput.actions["D"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.D);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.D);
+        }
 
         if (playerInput.actions["F"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.F);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.F);
         }
 
         if (playerInput.actions["G"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.G);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.G);
+        }
 
         if (playerInput.actions["H"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.H);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.H);
         }
 
         if (playerInput.actions["J"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.J);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.J);
+        }
 
         if (playerInput.actions["K"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.K);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.K);
+        }
 
         if (playerInput.actions["L"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.L);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.L);
         }
 
         #endregion
@@ -158,35 +234,63 @@ public class DynamicPlayerController : MonoBehaviour
         {
             ActivateArtifact(ArtifactKeycode.Z);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.Z);
+        }
 
         if (playerInput.actions["X"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.X);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.X);
         }
 
         if (playerInput.actions["C"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.C);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.C);
+        }
 
         if (playerInput.actions["V"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.V);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.V);
         }
 
         if (playerInput.actions["B"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.B);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.B);
+        }
 
         if (playerInput.actions["N"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.N);
         }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.N);
+        }
 
         if (playerInput.actions["M"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.M);
+        }
+        else
+        {
+            DeactivateArtifact(ArtifactKeycode.M);
         }
 
         #endregion
@@ -206,6 +310,17 @@ public class DynamicPlayerController : MonoBehaviour
         {
             artifact.ActivateArtifact(this);
         }
+        KeyboardArtifactManager.KeyPressedEvent?.Invoke(this, keycode);
+    }
+
+    void DeactivateArtifact(ArtifactKeycode keycode)
+    {
+        ArtifactBase artifact;
+        if (artifactKeys.TryGetValue(keycode, out artifact))
+        {
+            artifact.DeactivateArtifact(this);
+        }
+        KeyboardArtifactManager.KeyReleasedEvent?.Invoke(this, keycode);
     }
 
     public void QueueMovement(MoveVelocity movement, int priority)

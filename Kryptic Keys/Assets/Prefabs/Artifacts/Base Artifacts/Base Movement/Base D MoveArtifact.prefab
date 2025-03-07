@@ -127,6 +127,11 @@ MonoBehaviour:
   artifactKeycode: 12
   artifactCooldown: 3
   hasCooldown: 0
+  defaultColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
+  pressedColor: {r: 0, g: 1, b: 0.050980393, a: 1}
+  lastParent: {fileID: 0}
+  lastHolder: {fileID: 0}
+  isPressed: 0
   movementSpeedMultiplyer: 1
   priority: 1
   moveDirection: 3

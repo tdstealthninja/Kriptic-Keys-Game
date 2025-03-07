@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
     IEndDragHandler, IDragHandler
@@ -16,22 +17,37 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     protected float artifactCooldown = 3.0f;
     [SerializeField]
     protected bool hasCooldown = false;
+    [SerializeField]
+    protected Color defaultColor;
+    [SerializeField]
+    protected Color pressedColor;
+    //[SerializeField]
+    //protected Button button;
+
 
     private RectTransform rectTransform;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
     private GameObject dragDropObject;
+    private Image image;
+    
+
 
     [HideInInspector]
     public Transform lastParent;
     [HideInInspector]
     public ArtifactHolderUI lastHolder;
+    
+    public bool isPressed = false;
+
 
     protected virtual void Awake()
     {
         /// Change later to be player specific when item is picked up
         //DynamicPlayerController playerController = FindObjectOfType<DynamicPlayerController>();
         //AddThisArtifactToKeyboard(playerController);
+        image = GetComponent<Image>();
+        //button = GetComponent<Button>();
         rectTransform = GetComponent<RectTransform>();
         canvas = FindObjectOfType<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
@@ -40,7 +56,32 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     public virtual void ActivateArtifact(DynamicPlayerController playerController)
     {
+        if (!isPressed)
+        {
+            isPressed = true;
+            ArtifactPressed();
+        }
+    }
 
+    public virtual void DeactivateArtifact(DynamicPlayerController playerController)
+    {
+        if (isPressed)
+        {
+            isPressed = false;
+            ArtifactReleased();
+        }
+    }
+
+    
+
+    public void ArtifactPressed()
+    {
+        image.color = pressedColor;
+    }
+
+    public void ArtifactReleased()
+    {
+        image.color = defaultColor;
     }
 
     public virtual bool TryAddToPlayerKeyboard(DynamicPlayerController playerController)
@@ -86,6 +127,8 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
             playerController.AddArtifactToInventory(this);
         }
     }
+
+
 
     #region Drag and Drop
 

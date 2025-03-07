@@ -17,7 +17,7 @@ public class MoveArtifact : ArtifactBase
 
     public override void ActivateArtifact(DynamicPlayerController playerController)
     {
-        //base.ActivateArtifact(playerController);
+        base.ActivateArtifact(playerController);
 
         MoveVelocity moveVelocity;
         moveVelocity.direction = moveDirection;

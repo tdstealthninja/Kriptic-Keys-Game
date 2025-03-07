@@ -140,6 +140,11 @@ MonoBehaviour:
   artifactKeycode: 30
   artifactCooldown: 3
   hasCooldown: 0
+  defaultColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
+  pressedColor: {r: 0, g: 1, b: 0.108924866, a: 1}
+  lastParent: {fileID: 0}
+  lastHolder: {fileID: 0}
+  isPressed: 0
 --- !u!225 &-1238251106554434520
 CanvasGroup:
   m_ObjectHideFlags: 0
