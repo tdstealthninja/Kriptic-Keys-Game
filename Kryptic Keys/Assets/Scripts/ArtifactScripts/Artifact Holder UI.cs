@@ -68,7 +68,7 @@ public class ArtifactHolderUI : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("OnDrop");
+        //Debug.Log("OnDrop");
         if (eventData.pointerDrag != null && artifact == null)
         {
             KeyboardArtifactManager keyboard = GetComponentInParent<KeyboardArtifactManager>();

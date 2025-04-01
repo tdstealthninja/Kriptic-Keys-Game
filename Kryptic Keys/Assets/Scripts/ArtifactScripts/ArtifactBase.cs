@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
     IEndDragHandler, IDragHandler
 {
+
+    #region Protected Variables
     [SerializeField]
     protected string artifactName;
     [SerializeField]
@@ -16,30 +18,41 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     [SerializeField]
     protected float artifactCooldown = 3.0f;
     [SerializeField]
+    protected float cooldownTimer = 0f;
+    [SerializeField]
+    protected float cooldownSpeed = 0.1f;
+    [SerializeField]
+    protected float cooldownMultiplier = 1f;
+    [SerializeField]
     protected bool hasCooldown = false;
+    [SerializeField]
+    protected bool pauseActivation = false;
+    [SerializeField]
+    protected bool canBeActivated = true;
     [SerializeField]
     protected Color defaultColor;
     [SerializeField]
     protected Color pressedColor;
     //[SerializeField]
     //protected Button button;
+    #endregion
 
-
+    #region Private Variables
     private RectTransform rectTransform;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
     private GameObject dragDropObject;
     private Image image;
-    
+    #endregion
 
-
+    #region Public Variables
     [HideInInspector]
     public Transform lastParent;
     [HideInInspector]
     public ArtifactHolderUI lastHolder;
     
     public bool isPressed = false;
-
+    #endregion
 
     protected virtual void Awake()
     {
@@ -61,6 +74,11 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
             isPressed = true;
             ArtifactPressed();
         }
+
+        if (hasCooldown && cooldownTimer <= 0 && !pauseActivation)
+        {
+            cooldownTimer = artifactCooldown;
+        }
     }
 
     public virtual void DeactivateArtifact(DynamicPlayerController playerController)
@@ -72,7 +90,18 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
         }
     }
 
-    
+    protected virtual void Update()
+    {
+        if (cooldownTimer > 0 && !pauseActivation)
+        {
+            cooldownTimer -= cooldownSpeed * cooldownMultiplier;
+            canBeActivated = false;
+        }
+        else if (!pauseActivation)
+        {
+            canBeActivated = true;
+        }
+    }
 
     public void ArtifactPressed()
     {
@@ -134,12 +163,12 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Pointer Down");
+        //Debug.Log("Pointer Down");
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Begin Drag");
+        //Debug.Log("Begin Drag");
         lastHolder = transform.GetComponentInParent<ArtifactHolderUI>();
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false;
@@ -151,7 +180,7 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("End Drag");
+        //Debug.Log("End Drag");
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
         transform.SetParent(lastParent);
@@ -160,7 +189,7 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("OnDrag");
+        //Debug.Log("OnDrag");
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor; 
 
     }

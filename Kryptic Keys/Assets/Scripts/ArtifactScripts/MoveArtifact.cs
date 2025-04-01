@@ -18,31 +18,34 @@ public class MoveArtifact : ArtifactBase
     public override void ActivateArtifact(DynamicPlayerController playerController)
     {
         base.ActivateArtifact(playerController);
-
-        MoveVelocity moveVelocity;
-        moveVelocity.direction = moveDirection;
-
-        switch (moveDirection)
+        if (canBeActivated)
         {
-            case MoveDirection.UP:
-                moveVelocity.move = Vector2.up * movementSpeedMultiplyer;
-                playerController.QueueMovement(moveVelocity, priority);
-                break;
-            case MoveDirection.DOWN:
-                moveVelocity.move = Vector2.down * movementSpeedMultiplyer;
-                playerController.QueueMovement(moveVelocity, priority);
-                break;
-            case MoveDirection.LEFT:
-                moveVelocity.move = Vector2.left * movementSpeedMultiplyer;
-                playerController.QueueMovement(moveVelocity, priority);
-                break;
-            case MoveDirection.RIGHT:
-                moveVelocity.move = Vector2.right * movementSpeedMultiplyer;
-                playerController.QueueMovement(moveVelocity, priority);
-                break;
-            default:
-                break;
+            MoveVelocity moveVelocity;
+            moveVelocity.direction = moveDirection;
+
+            switch (moveDirection)
+            {
+                case MoveDirection.UP:
+                    moveVelocity.move = Vector2.up * movementSpeedMultiplyer;
+                    playerController.QueueMovement(moveVelocity, priority);
+                    break;
+                case MoveDirection.DOWN:
+                    moveVelocity.move = Vector2.down * movementSpeedMultiplyer;
+                    playerController.QueueMovement(moveVelocity, priority);
+                    break;
+                case MoveDirection.LEFT:
+                    moveVelocity.move = Vector2.left * movementSpeedMultiplyer;
+                    playerController.QueueMovement(moveVelocity, priority);
+                    break;
+                case MoveDirection.RIGHT:
+                    moveVelocity.move = Vector2.right * movementSpeedMultiplyer;
+                    playerController.QueueMovement(moveVelocity, priority);
+                    break;
+                default:
+                    break;
+            }
         }
+        
     }
 
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ArtifactInventoryUI : MonoBehaviour, IDropHandler
 {
@@ -9,20 +10,19 @@ public class ArtifactInventoryUI : MonoBehaviour, IDropHandler
     private ArtifactHolderUI artifactHolderUIPrefab;
     private System.Predicate<ArtifactHolderUI> nullCheck = HolderDoesNotHaveArtifact;
     private List<ArtifactHolderUI> emptyHolders = new List<ArtifactHolderUI>();
-
+    [SerializeField]
+    private GameObject textObject;
+    [SerializeField]
+    private Image inventoryImage;
+    private bool inventoryUiOpen = false;
 
     public List<ArtifactHolderUI> artifactHolders = new List<ArtifactHolderUI>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+
+    private void Awake()
     {
-        
+        inventoryImage = GetComponent<Image>();
     }
 
     private void FixedUpdate()
@@ -66,5 +66,21 @@ public class ArtifactInventoryUI : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         ReturnToInventory(eventData);
+    }
+
+    public void ToggleInventoryUI()
+    {
+        if (inventoryUiOpen)
+        {
+            textObject.SetActive(false);
+            inventoryImage.enabled = false;
+            inventoryUiOpen = false;
+        }
+        else
+        {
+            textObject.SetActive(true);
+            inventoryImage.enabled = true;
+            inventoryUiOpen = true;
+        }
     }
 }

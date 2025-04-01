@@ -22,16 +22,25 @@ public class DynamicPlayerController : MonoBehaviour
     private Vector2 playerMovement = Vector2.zero;
 
     [SerializeField]
+    private Rigidbody2D playerRigidbody2D;
+
+    [SerializeField]
     private float baseMoveSpeed = 1f;
+
+    //[SerializeField]
+    //private float rotationSpeed = 90f;
 
     [SerializeField]
     private ArtifactInventoryUI artifactInventory;
+
 
     #endregion
 
     #region Public Variables 
 
     public List<ArtifactBase> heldArtifacts = new List<ArtifactBase>();
+
+    public GameObject projectileSpawnpoint;
 
     #endregion
 
@@ -44,6 +53,7 @@ public class DynamicPlayerController : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerRigidbody2D = GetComponentInParent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -297,10 +307,16 @@ public class DynamicPlayerController : MonoBehaviour
 
         #endregion
 
+    }
+
+    private void FixedUpdate()
+    {
         //If a movement based artifact has been used, the action will have been added to the queue by now and the player will try to move
         // Otherwise if there are no movements queued, the Move function won't be called
         if (movementPriorityQueue.Count > 0)
             Move();
+        else
+            playerRigidbody2D.velocity = Vector2.zero;
     }
 
     void ActivateArtifact(ArtifactKeycode keycode)
@@ -343,11 +359,26 @@ public class DynamicPlayerController : MonoBehaviour
             playerMovement += movement.move;
             moveDirections.Add(movement.direction);
         }
+
+        playerRigidbody2D.velocity = playerMovement * baseMoveSpeed * Time.deltaTime;
         
-        transform.Translate(playerMovement * baseMoveSpeed * Time.deltaTime);
+        //transform.Translate(playerMovement * baseMoveSpeed * Time.deltaTime, Space.World);
+
+        RotateWithMove(playerMovement);
+
         playerMovement = Vector2.zero;
         movementPriorityQueue.Clear();
         moveDirections.Clear();
+    }
+
+    void RotateWithMove(Vector2 movement)
+    {
+        ///Rotate object with movement
+        //Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, playerMovement.normalized);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, movement.normalized);
+        
     }
 
     public bool AddArtifactToKeyboard(ArtifactBase artifact, ArtifactKeycode keycode)
@@ -371,7 +402,10 @@ public class DynamicPlayerController : MonoBehaviour
         }
     }
     
-    
+    //public Vector2 GetPlayerMovementDirection()
+    //{
+    //    return playerRigidbody2D.velocity.normalized;
+    //}
 
 }
 
