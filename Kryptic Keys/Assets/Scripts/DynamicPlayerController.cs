@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEditor;
 using AYellowpaper.SerializedCollections;
 using Utils;
+using System;
 
-public class DynamicPlayerController : MonoBehaviour
+public class DynamicPlayerController : MonoBehaviour, IDamagable
 {
     #region Private Variables
     
@@ -18,6 +20,8 @@ public class DynamicPlayerController : MonoBehaviour
     private List<MoveDirection> moveDirections = new List<MoveDirection>();
 
     private PlayerInput playerInput;
+    [SerializeField]
+    private bool playerInputActive = true;
 
     private Vector2 playerMovement = Vector2.zero;
 
@@ -26,13 +30,16 @@ public class DynamicPlayerController : MonoBehaviour
 
     [SerializeField]
     private float baseMoveSpeed = 1f;
+    [SerializeField]
+    private int baseHealth = 10;
 
     //[SerializeField]
     //private float rotationSpeed = 90f;
 
     [SerializeField]
     private ArtifactInventoryUI artifactInventory;
-
+    //[SerializeField]
+    //private InputActionReference actionReference;
 
     #endregion
 
@@ -41,6 +48,13 @@ public class DynamicPlayerController : MonoBehaviour
     public List<ArtifactBase> heldArtifacts = new List<ArtifactBase>();
 
     public GameObject projectileSpawnpoint;
+
+    public int Health { get; set; }
+
+    [HideInInspector]
+    public static string PlayerLayerName = "Player";
+    [HideInInspector]
+    public static string EnemyLayerName = "Enemy";
 
     #endregion
 
@@ -52,22 +66,76 @@ public class DynamicPlayerController : MonoBehaviour
 
     private void Awake()
     {
+        Health = baseHealth;
         playerInput = GetComponent<PlayerInput>();
+        playerInput.camera = Camera.main;
+        playerInput.uiInputModule = FindObjectOfType<InputSystemUIInputModule>();
+        artifactInventory = FindObjectOfType<ArtifactInventoryUI>();
         playerRigidbody2D = GetComponentInParent<Rigidbody2D>();
+    }
+
+    private void OnDisable()
+    {
+        heldArtifacts.Clear();
+        artifactKeys.Clear();
+        moveDirections.Clear();
+        movementPriorityQueue.Clear();
     }
 
     // Update is called once per frame
     void Update()
     {
-        #region Key Pressed Checks
+        if (!playerInputActive)
+        {
+            return;
+        }
 
+        foreach (InputAction input in playerInput.actions.actionMaps[0])  // NOTE: This solution works because the names of the inputs in the InputActions
+        {                                                                  // are the same as the values of the ArtifactKeycode, simplifying the process                                                                          
+        
+            if (input.IsPressed())
+            {
+                System.Object obj; //System object for result of enum parse
+                bool check = Enum.TryParse(typeof(ArtifactKeycode), input.name, out obj); //Checks if input name matches value in ArtifactKeycode,
+                                                                                          //returns true or false and sets the obj to the result 
+                ArtifactKeycode keycode = ArtifactKeycode.NONE;
+                if (check) // If TryParse worked, make above keycode the result from the parse,
+                           // casted as ArtifactKeycode and Activate the artifact
+                {
+                    keycode = (ArtifactKeycode)obj;
+                    
+                    ActivateArtifact(keycode);
+                }
+                
+            }
+            else if (input.WasReleasedThisFrame())
+            {
+                System.Object obj; //System object for result of enum parse
+                bool check = Enum.TryParse(typeof(ArtifactKeycode), input.name, out obj); //Checks if input name matches value in ArtifactKeycode,
+                                                                                          //returns true or false and sets the obj to the result
+                ArtifactKeycode keycode = ArtifactKeycode.NONE;
+                if (check) // If TryParse worked, make above keycode the result from the parse,
+                           // casted as ArtifactKeycode and Deactivate the artifact
+                {
+                    keycode = (ArtifactKeycode)obj;
+                    
+                    DeactivateArtifact(keycode);
+                }
+            }
+        }
+
+        // Old way of doing key checks, was unoptimized and was missing the WasReleasedThisFrame part,
+        // meaning DeactivateArtifact was happening every frame the player wasn't pushing the button that frame
+        #region Old Key Pressed Checks 
+        /*
         #region Row 1
         if (playerInput.actions["Q"].IsPressed())
         {
             ActivateArtifact(ArtifactKeycode.Q);
         }
-        else
+        else if (playerInput.actions["Q"].WasReleasedThisFrame())
         {
+            Debug.Log("Q released");
             DeactivateArtifact(ArtifactKeycode.Q);
         }
 
@@ -75,7 +143,7 @@ public class DynamicPlayerController : MonoBehaviour
         {
             ActivateArtifact(ArtifactKeycode.W);
         }
-        else
+        else if (playerInput.actions["W"].WasReleasedThisFrame())
         {
             DeactivateArtifact(ArtifactKeycode.W);
         }
@@ -84,7 +152,7 @@ public class DynamicPlayerController : MonoBehaviour
         {
             ActivateArtifact(ArtifactKeycode.E);
         }
-        else
+        else if (playerInput.actions["E"].WasReleasedThisFrame())
         {
             DeactivateArtifact(ArtifactKeycode.E);
         }
@@ -93,7 +161,7 @@ public class DynamicPlayerController : MonoBehaviour
         {
             ActivateArtifact(ArtifactKeycode.R);
         }
-        else
+        else if (playerInput.actions["R"].WasReleasedThisFrame())
         {
             DeactivateArtifact(ArtifactKeycode.R);
         }
@@ -304,9 +372,9 @@ public class DynamicPlayerController : MonoBehaviour
         }
 
         #endregion
-
+        */
         #endregion
-
+        
     }
 
     private void FixedUpdate()
@@ -324,7 +392,11 @@ public class DynamicPlayerController : MonoBehaviour
         ArtifactBase artifact;
         if (artifactKeys.TryGetValue(keycode,out artifact))
         {
-            artifact.ActivateArtifact(this);
+            if (artifact)
+            {
+                artifact.ActivateArtifact(this);
+            }
+            
         }
         KeyboardArtifactManager.KeyPressedEvent?.Invoke(this, keycode);
     }
@@ -334,13 +406,19 @@ public class DynamicPlayerController : MonoBehaviour
         ArtifactBase artifact;
         if (artifactKeys.TryGetValue(keycode, out artifact))
         {
-            artifact.DeactivateArtifact(this);
+            Debug.Log(artifact);
+            if (artifact)
+            {
+                artifact.DeactivateArtifact(this);
+            }
+            
         }
         KeyboardArtifactManager.KeyReleasedEvent?.Invoke(this, keycode);
     }
 
     public void QueueMovement(MoveVelocity movement, int priority)
     {
+        Debug.Log("Queue " + movement.direction.ToString() + " movement");
         movementPriorityQueue.Enqueue(movement, priority);
     }
 
@@ -388,6 +466,7 @@ public class DynamicPlayerController : MonoBehaviour
 
     public bool RemoveArtifactFromKeyboard(ArtifactKeycode keycode)
     {
+        Debug.Log("Artifact " + keycode + " removed");
         return artifactKeys.Remove(keycode);
     }
 
@@ -402,10 +481,25 @@ public class DynamicPlayerController : MonoBehaviour
         }
     }
     
-    //public Vector2 GetPlayerMovementDirection()
-    //{
-    //    return playerRigidbody2D.velocity.normalized;
-    //}
+    public Vector2 GetPlayerMovementDirection()
+    {
+        return playerRigidbody2D.velocity;
+    }
+
+    public void Damage(int damageAmount)
+    {
+        Health -= damageAmount;
+    }
+
+    public void PlayerControllsActive(bool toggle)
+    {
+        playerInputActive = toggle;
+    }
+
+    public bool IsPlayerControllsActive()
+    {
+        return playerInputActive;
+    }
 
 }
 

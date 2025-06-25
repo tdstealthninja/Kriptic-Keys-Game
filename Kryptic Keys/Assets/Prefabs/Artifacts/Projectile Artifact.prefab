@@ -166,7 +166,7 @@ MonoBehaviour:
   projectileAmount: 1
   projectileAngleRandomness: 0.1
   projectileMultiplier: 1
-  projectileSpeed: 600
+  projectileSpeedMultiplier: 1
 --- !u!1 &8982270023941574374
 GameObject:
   m_ObjectHideFlags: 0

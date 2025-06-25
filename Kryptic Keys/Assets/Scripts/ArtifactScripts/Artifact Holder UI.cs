@@ -72,14 +72,32 @@ public class ArtifactHolderUI : MonoBehaviour, IDropHandler
         if (eventData.pointerDrag != null && artifact == null)
         {
             KeyboardArtifactManager keyboard = GetComponentInParent<KeyboardArtifactManager>();
-            artifact = eventData.pointerDrag.GetComponent<ArtifactBase>();
-            keyboard.UpdateArtifactEvent?.Invoke(this);
-            artifact.lastHolder.artifact = null;
-            keyboard.UpdateArtifactEvent?.Invoke(artifact.lastHolder);
-            artifact.lastHolder = this;
-            
-            eventData.pointerDrag.transform.SetParent(transform);
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            ArtifactInventoryUI artifactInventory = GetComponentInParent<ArtifactInventoryUI>();
+
+            GameObject pointerObj = eventData.pointerDrag;
+            ArtifactBase pointerArtifact = pointerObj.GetComponent<ArtifactBase>();
+
+            if (keyboard)
+            {
+                artifact = pointerArtifact;
+                keyboard.UpdateArtifactEvent?.Invoke(this);
+                artifact.lastHolder.artifact = null;
+                keyboard.UpdateArtifactEvent?.Invoke(artifact.lastHolder);
+                artifact.lastHolder = this;
+            }
+            else if (artifactInventory)
+            {
+                keyboard = pointerArtifact.lastHolder.GetComponentInParent<KeyboardArtifactManager>();
+                artifact = pointerArtifact;
+                keyboard.UpdateArtifactEvent?.Invoke(this);
+                artifact.lastHolder.artifact = null;
+                keyboard.UpdateArtifactEvent?.Invoke(artifact.lastHolder);
+                artifact.lastHolder = this;
+            }
+
+
+            pointerObj.transform.SetParent(transform);
+            pointerObj.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             
             artifact.lastParent = transform;
         }

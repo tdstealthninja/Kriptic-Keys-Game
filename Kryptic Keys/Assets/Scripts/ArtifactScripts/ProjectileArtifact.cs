@@ -5,14 +5,14 @@ using UnityEngine;
 public class ProjectileArtifact : ArtifactBase
 {
     [SerializeField]
-    private GameObject projectilePrefab;
+    protected GameObject projectilePrefab;
     [SerializeField]
-    private int projectileAmount = 1;
+    protected int projectileAmount = 1;
     [SerializeField]
-    private float projectileAngleRandomness = 0.1f;
+    protected float projectileAngleRandomness = 0.1f;
 
     public int projectileMultiplier = 1;
-    public float projectileSpeed = 600f;
+    public float projectileSpeedMultiplier = 1;
     
 
 
@@ -31,9 +31,16 @@ public class ProjectileArtifact : ArtifactBase
             if (projectilePrefab)
             {
                 spawnedProjectile = Instantiate(projectilePrefab, playerController.projectileSpawnpoint.transform.position, Quaternion.identity);
-                //Vector2 direction = playerController.GetPlayerMovementDirection();
-                //direction.x += Random.Range(-projectileAngleRandomness, projectileAngleRandomness);
-                spawnedProjectile.GetComponent<Rigidbody2D>().AddForce(playerController.transform.up * projectileSpeed * Time.deltaTime, ForceMode2D.Impulse);
+                spawnedProjectile.GetComponent<IProjectile>().playerProjectile = true;
+                float projectileSpeed = spawnedProjectile.GetComponent<ProjectileScript>().projectileSpeed;
+                Vector2 direction = playerController.GetPlayerMovementDirection().normalized;
+
+                //direction *= Random.Range(-projectileAngleRandomness, projectileAngleRandomness);
+                direction.x += Random.Range(-projectileAngleRandomness, projectileAngleRandomness);
+                direction.y += Random.Range(-projectileAngleRandomness, projectileAngleRandomness);
+                direction *= playerController.transform.right;
+                Vector3 direction3D = new Vector3(direction.x, direction.y /*0*/, 0);
+                spawnedProjectile.GetComponent<Rigidbody2D>().AddForce((playerController.transform.up + direction3D) * projectileSpeed * Time.deltaTime, ForceMode2D.Impulse);
             }
         }
         

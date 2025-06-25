@@ -69,50 +69,67 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     public virtual void ActivateArtifact(DynamicPlayerController playerController)
     {
-        if (!isPressed)
+        if (!pauseActivation)
         {
-            isPressed = true;
-            ArtifactPressed();
+            if (!isPressed)
+            {
+                isPressed = true;
+                ArtifactPressed();
+            }
+
+            if (hasCooldown && cooldownTimer <= 0)
+            {
+                cooldownTimer = artifactCooldown;
+            }
         }
 
-        if (hasCooldown && cooldownTimer <= 0 && !pauseActivation)
-        {
-            cooldownTimer = artifactCooldown;
-        }
     }
 
     public virtual void DeactivateArtifact(DynamicPlayerController playerController)
     {
-        if (isPressed)
+        if (!pauseActivation)
+        {
+            if (isPressed)
         {
             isPressed = false;
             ArtifactReleased();
         }
+        }
+        
     }
 
     protected virtual void Update()
     {
-        if (cooldownTimer > 0 && !pauseActivation)
+        if (!pauseActivation)
         {
-            cooldownTimer -= cooldownSpeed * cooldownMultiplier;
-            canBeActivated = false;
-        }
-        else if (!pauseActivation)
-        {
-            canBeActivated = true;
+            if (cooldownTimer > 0)
+            {
+                cooldownTimer -= cooldownSpeed * cooldownMultiplier;
+                canBeActivated = false;
+            }
+            if (cooldownTimer < 0)
+            {
+                canBeActivated = true;
+            }
         }
     }
 
     public void ArtifactPressed()
     {
         image.color = pressedColor;
+        Debug.Log(this.artifactName + " pressed");
     }
 
     public void ArtifactReleased()
     {
         image.color = defaultColor;
+        Debug.Log(this.artifactName + " released");
     }
 
+    public void ToggleArtifactActivation(bool toggle)
+    {
+        pauseActivation = toggle;
+    }
     public virtual bool TryAddToPlayerKeyboard(DynamicPlayerController playerController)
     {
         if (artifactKeycode != ArtifactKeycode.NONE)

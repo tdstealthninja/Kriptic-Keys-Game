@@ -20,6 +20,11 @@ public class KeyboardArtifactManager : MonoBehaviour
     public static UnityEvent<DynamicPlayerController, ArtifactKeycode> KeyReleasedEvent;
 
 
+    private void Awake()
+    {
+        playerController = FindObjectOfType<DynamicPlayerController>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

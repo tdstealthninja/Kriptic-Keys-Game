@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 941878375487060320}
   - component: {fileID: 838872311253669638}
   - component: {fileID: 409037581686077595}
+  - component: {fileID: 7834890049074594853}
   m_Layer: 0
   m_Name: Test Projectile
   m_TagString: Untagged
@@ -103,7 +104,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 78d566816e9b2eb4a911fbfbdbba63c7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -113,7 +114,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &838872311253669638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,12 +127,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d44680c1f218e4b8d69739ffa88633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSpeed: 600
-  projectileLifetime: 15
+  projectileSpeed: 800
+  projectileLifetime: 60
   projectileTimer: 0
   projectileDecaySpeed: 0.1
   projectileDecaySpeedMultiplier: 1
   projectileRigidbody2D: {fileID: 941878375487060320}
+  numBounces: 0
 --- !u!58 &409037581686077595
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -162,6 +164,41 @@ CircleCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!58 &7834890049074594853
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330144649734048889}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
