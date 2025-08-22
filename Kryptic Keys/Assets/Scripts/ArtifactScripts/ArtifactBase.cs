@@ -16,6 +16,8 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     [SerializeField]
     protected ArtifactKeycode artifactKeycode;
     [SerializeField]
+    protected List<ArtifactKeycode> adjecentKeycodes = new List<ArtifactKeycode>();
+    [SerializeField]
     protected float artifactCooldown = 3.0f;
     [SerializeField]
     protected float cooldownTimer = 0f;
@@ -173,8 +175,149 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
             playerController.AddArtifactToInventory(this);
         }
     }
+    /// <summary>
+    /// Get adjecent keys around keycode (letter).
+    /// </summary>
+    /// <param name="keycode"></param>
+    public void SetAdjecentKeycodes(ArtifactKeycode keycode)
+    {
+        //List<ArtifactKeycode> adjecentKeycodes = new List<ArtifactKeycode>();
+        adjecentKeycodes.Clear();
+        int keynum = (int)keycode;
+        int keyadjecent = 0;
 
+        if (keycode != ArtifactKeycode.NONE)
+        {
+            //Top row
+            if (keynum < 10)
+            {
+                //Left
+                keyadjecent = keynum - 1;
+                if (keyadjecent >= 0 && keyadjecent <= 9)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Right
+                keyadjecent = keynum + 1;
+                if (keyadjecent >= 0 && keyadjecent <= 9)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
 
+                //Down
+                keyadjecent = keynum + 10;
+                if (keyadjecent >= 10 && keyadjecent <= 18)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+
+                //Down left
+                keyadjecent = keynum + 11;
+                if (keyadjecent >= 10 && keyadjecent <= 18)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+
+                //Down right
+                keyadjecent = keynum + 9;
+                if (keyadjecent >= 10 && keyadjecent <= 18)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+            }
+            //Bottom row
+            else if (keynum > 19)
+            {
+                //Left
+                keyadjecent = keynum - 1;
+                if (keyadjecent >= 20 && keyadjecent <= 26)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Right
+                keyadjecent = keynum + 1;
+                if (keyadjecent >= 20 && keyadjecent <= 26)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Up
+                keyadjecent = keynum - 10;
+                if (keyadjecent >= 10 && keyadjecent <= 18)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+
+                //Up left
+                keyadjecent = keynum - 11;
+                if (keyadjecent >= 10 && keyadjecent <= 18)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+
+                //Up right
+                keyadjecent = keynum - 9;
+                if (keyadjecent >= 10 && keyadjecent <= 18)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+
+            }
+            //Middle row
+            else
+            {
+                //Left
+                keyadjecent = keynum - 1;
+                if (keyadjecent >= 10 && keyadjecent <= 18)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Right
+                keyadjecent = keynum + 1;
+                if (keyadjecent >= 10 && keyadjecent <= 18)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Up
+                keyadjecent = keynum - 10;
+                if (keyadjecent >= 0 && keyadjecent <= 9)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Down
+                keyadjecent = keynum + 10;
+                if (keyadjecent >= 20 && keyadjecent <= 26)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Up left
+                keyadjecent = keynum - 11;
+                if (keyadjecent >= 0 && keyadjecent <= 9)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Down left
+                keyadjecent = keynum + 11;
+                if (keyadjecent >= 20 && keyadjecent <= 26)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Up right
+                keyadjecent = keynum - 9;
+                if (keyadjecent >= 0 && keyadjecent <= 9)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+                //Down right
+                keyadjecent = keynum + 9;
+                if (keyadjecent >= 20 && keyadjecent <= 26)
+                {
+                    adjecentKeycodes.Add((ArtifactKeycode)keyadjecent);
+                }
+            }
+
+        }
+
+    }
 
     #region Drag and Drop
 

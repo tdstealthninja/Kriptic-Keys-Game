@@ -89,7 +89,7 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
         {
             return;
         }
-
+        #region New Input Checks
         foreach (InputAction input in playerInput.actions.actionMaps[0])  // NOTE: This solution works because the names of the inputs in the InputActions
         {                                                                  // are the same as the values of the ArtifactKeycode, simplifying the process                                                                          
         
@@ -123,10 +123,11 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
                 }
             }
         }
+        #endregion
 
+        #region Old Key Pressed Checks 
         // Old way of doing key checks, was unoptimized and was missing the WasReleasedThisFrame part,
         // meaning DeactivateArtifact was happening every frame the player wasn't pushing the button that frame
-        #region Old Key Pressed Checks 
         /*
         #region Row 1
         if (playerInput.actions["Q"].IsPressed())
@@ -374,7 +375,7 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
         #endregion
         */
         #endregion
-        
+
     }
 
     private void FixedUpdate()
@@ -458,10 +459,17 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
         transform.rotation = Quaternion.LookRotation(Vector3.forward, movement.normalized);
         
     }
+    
 
     public bool AddArtifactToKeyboard(ArtifactBase artifact, ArtifactKeycode keycode)
     {
-        return artifactKeys.TryAdd(keycode, artifact);
+        Debug.Log("Artifact " + keycode + " added");
+        bool added = artifactKeys.TryAdd(keycode, artifact);
+        if (added)
+        {
+            artifact.SetAdjecentKeycodes(keycode);
+        }
+        return added;
     }
 
     public bool RemoveArtifactFromKeyboard(ArtifactKeycode keycode)
@@ -507,8 +515,14 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
 public enum ArtifactKeycode
 {
     Q,W,E,R,T,Y,U,I,O,P,
-    A,S,D,F,G,H,J,K,L,
+    A,S,D,F,G,H,J,K,L,col,
     Z,X,C,V,B,N,M,
     UpArrow, DownArrow, LeftArrow, RightArrow,
     NONE
+}
+
+public enum ArtifactSynergys
+{
+    NONE,
+    GOLD
 }

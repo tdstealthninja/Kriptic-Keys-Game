@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15d671fa410b2448a984ca826ac8f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyCode: 30
+  keyCode: 31
   artifact: {fileID: 0}
   image: {fileID: 1622423223064745042}
   isPressed: 0

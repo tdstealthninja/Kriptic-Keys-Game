@@ -341,6 +341,7 @@ MonoBehaviour:
   playerInputActive: 1
   playerRigidbody2D: {fileID: 6800878102546662678}
   baseMoveSpeed: 150
+  baseHealth: 10
   artifactInventory: {fileID: 0}
   heldArtifacts: []
   projectileSpawnpoint: {fileID: 7029126047610135669}
