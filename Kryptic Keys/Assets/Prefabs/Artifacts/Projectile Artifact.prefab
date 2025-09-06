@@ -149,7 +149,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artifactName: Projectile Test
   artifactDescription: Test shoot projectile
-  artifactKeycode: 20
+  artifactKeycode: 9
+  adjecentKeycodes: 
   artifactCooldown: 10
   cooldownTimer: 0
   cooldownSpeed: 0.1
@@ -159,6 +160,10 @@ MonoBehaviour:
   canBeActivated: 1
   defaultColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
   pressedColor: {r: 0, g: 1, b: 0.10980392, a: 1}
+  artifactSet: 0
+  setActive: 0
+  numArtifactsInSet: 0
+  setMultiplier: 1
   lastParent: {fileID: 0}
   lastHolder: {fileID: 0}
   isPressed: 0

@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 49280855235843976, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_Name
-      value: Base A MoveArtifact
+      value: Gold A MoveArtifact
       objectReference: {fileID: 0}
     - target: {fileID: 1921839819406531991, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_text
@@ -135,7 +135,7 @@ MonoBehaviour:
   canBeActivated: 1
   defaultColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
   pressedColor: {r: 0, g: 1, b: 0.047991276, a: 1}
-  artifactSet: 0
+  artifactSet: 1
   setActive: 0
   numArtifactsInSet: 0
   setMultiplier: 1

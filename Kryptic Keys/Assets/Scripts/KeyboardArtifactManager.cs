@@ -64,15 +64,16 @@ public class KeyboardArtifactManager : MonoBehaviour
 
     void UpdateArtifact(ArtifactHolderUI artifactHolder)
     {
+        bool success = false;
         if (playerController)
         {
             if (artifactHolder.artifact)
             {
-                playerController.AddArtifactToKeyboard(artifactHolder.artifact, artifactHolder.keyCode);
+                success = playerController.AddArtifactToKeyboard(artifactHolder.artifact, artifactHolder.keyCode);
             }
             else
             {
-                playerController.RemoveArtifactFromKeyboard(artifactHolder.keyCode);
+                success = playerController.RemoveArtifactFromKeyboard(artifactHolder.keyCode);
             }
         }
         
@@ -98,5 +99,10 @@ public class KeyboardArtifactManager : MonoBehaviour
                 artifactKeys[artifactKeycode].ArtifactReleased();
             }
         }
+    }
+
+    public DynamicPlayerController GetPlayerController()
+    {
+        return playerController;
     }
 }

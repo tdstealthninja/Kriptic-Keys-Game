@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 49280855235843976, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_Name
-      value: Base A MoveArtifact
+      value: Gold D MoveArtifact
       objectReference: {fileID: 0}
     - target: {fileID: 1921839819406531991, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_text
-      value: A
+      value: D
       objectReference: {fileID: 0}
     - target: {fileID: 2065282051176475955, guid: aaac3dab868faed4dbd4b089315cfda9, type: 3}
       propertyPath: m_Pivot.x
@@ -122,9 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55ea7ffd7a47dc84ca55275cb636755a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  artifactName: Move Forward
-  artifactDescription: AAAAAAAAA!!!!!
-  artifactKeycode: 10
+  artifactName: Move Left
+  artifactDescription: DAAAAAA!!!!!
+  artifactKeycode: 12
   adjecentKeycodes: 
   artifactCooldown: 3
   cooldownTimer: 0
@@ -134,8 +134,8 @@ MonoBehaviour:
   pauseActivation: 0
   canBeActivated: 1
   defaultColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
-  pressedColor: {r: 0, g: 1, b: 0.047991276, a: 1}
-  artifactSet: 0
+  pressedColor: {r: 0, g: 1, b: 0.050980393, a: 1}
+  artifactSet: 1
   setActive: 0
   numArtifactsInSet: 0
   setMultiplier: 1
@@ -144,5 +144,5 @@ MonoBehaviour:
   isPressed: 0
   movementSpeedMultiplyer: 1
   priority: 1
-  moveDirection: 2
+  moveDirection: 3
   canHoverOverHazard: 0

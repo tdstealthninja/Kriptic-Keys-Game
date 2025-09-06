@@ -12,7 +12,7 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
 {
     #region Private Variables
     
-    [SerializeField]
+    //[SerializeField]
     private SerializedDictionary<ArtifactKeycode, ArtifactBase> artifactKeys = new SerializedDictionary<ArtifactKeycode, ArtifactBase>();
 
     private PriorityQueue<MoveVelocity, int> movementPriorityQueue = new PriorityQueue<MoveVelocity, int>();
@@ -35,6 +35,8 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
 
     //[SerializeField]
     //private float rotationSpeed = 90f;
+    [SerializeField]
+    private bool hovering = false;
 
     [SerializeField]
     private ArtifactInventoryUI artifactInventory;
@@ -61,7 +63,7 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
     // Start is called before the first frame update
     void Start()
     {
-        
+        artifactKeys.Clear();
     }
 
     private void Awake()
@@ -77,7 +79,7 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
     private void OnDisable()
     {
         heldArtifacts.Clear();
-        artifactKeys.Clear();
+        //artifactKeys.Clear();
         moveDirections.Clear();
         movementPriorityQueue.Clear();
     }
@@ -407,7 +409,7 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
         ArtifactBase artifact;
         if (artifactKeys.TryGetValue(keycode, out artifact))
         {
-            Debug.Log(artifact);
+            //Debug.Log(artifact);
             if (artifact)
             {
                 artifact.DeactivateArtifact(this);
@@ -463,19 +465,28 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
 
     public bool AddArtifactToKeyboard(ArtifactBase artifact, ArtifactKeycode keycode)
     {
-        Debug.Log("Artifact " + keycode + " added");
-        bool added = artifactKeys.TryAdd(keycode, artifact);
-        if (added)
+        if (keycode != ArtifactKeycode.NONE)
         {
-            artifact.SetAdjecentKeycodes(keycode);
+            Debug.Log("Artifact " + keycode + " added");
+            bool added = artifactKeys.TryAdd(keycode, artifact);
+            if (added)
+            {
+                artifact.SetAdjecentKeycodes(keycode);
+                ActivateArtifactSet(artifact.GetCurrentArtifactSet(), artifact, true);
+            }
+            return added;
         }
-        return added;
+        return false;
     }
 
     public bool RemoveArtifactFromKeyboard(ArtifactKeycode keycode)
     {
-        Debug.Log("Artifact " + keycode + " removed");
-        return artifactKeys.Remove(keycode);
+        if (keycode != ArtifactKeycode.NONE)
+        {
+            Debug.Log("Artifact " + keycode + " removed");
+            return artifactKeys.Remove(keycode);
+        }
+        return false;
     }
 
     
@@ -486,9 +497,53 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
         {
             artifactInventory.AddToInventory(artifact);
             heldArtifacts.Add(artifact);
+            
         }
     }
+
     
+
+    public bool ActivateArtifactSet(ArtifactSet set, ArtifactBase artifact, bool add)
+    {
+        if (set != ArtifactSet.NONE)
+        {
+            int nearbyInSet = 0;
+            List<ArtifactBase> artifacts = new List<ArtifactBase>();
+
+            if (add)
+            {
+                artifacts.Add(artifact);
+                nearbyInSet++;
+            }
+                
+
+            foreach (ArtifactKeycode keycode in artifact.GetAdjecentKeycodes())
+            {
+                ArtifactBase artifactBase;
+                bool get = artifactKeys.TryGetValue(keycode, out artifactBase);
+                if (get)
+                {
+                    ArtifactSet artifactSet = artifactBase.GetCurrentArtifactSet();
+                    if (artifactSet == set)
+                    {
+                        nearbyInSet++;
+                        artifacts.Add(artifactBase);
+                    }
+                }
+                
+            }
+            foreach (ArtifactBase art in artifacts)
+            {
+                art.ActivateSet(this, set, nearbyInSet);
+            }
+            artifacts.Clear();
+            return true;
+        }
+
+        return false;
+    }
+
+
     public Vector2 GetPlayerMovementDirection()
     {
         return playerRigidbody2D.velocity;
@@ -509,6 +564,10 @@ public class DynamicPlayerController : MonoBehaviour, IDamagable
         return playerInputActive;
     }
 
+    public bool IsHovering()
+    {
+        return hovering;
+    }
 }
 
 
@@ -521,7 +580,7 @@ public enum ArtifactKeycode
     NONE
 }
 
-public enum ArtifactSynergys
+public enum ArtifactSet
 {
     NONE,
     GOLD

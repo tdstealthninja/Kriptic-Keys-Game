@@ -14,7 +14,7 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     [SerializeField]
     protected string artifactDescription;
     [SerializeField]
-    protected ArtifactKeycode artifactKeycode;
+    protected ArtifactKeycode artifactKeycode = ArtifactKeycode.NONE;
     [SerializeField]
     protected List<ArtifactKeycode> adjecentKeycodes = new List<ArtifactKeycode>();
     [SerializeField]
@@ -35,8 +35,15 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     protected Color defaultColor;
     [SerializeField]
     protected Color pressedColor;
-    //[SerializeField]
-    //protected Button button;
+    [SerializeField]
+    protected ArtifactSet artifactSet = ArtifactSet.NONE;
+    [SerializeField]
+    protected bool setActive = false;
+    [SerializeField]
+    protected int numArtifactsInSet = 0;
+    protected const float BASESETMULT = 1f;
+    [SerializeField]
+    protected float setMultiplier = BASESETMULT;
     #endregion
 
     #region Private Variables
@@ -52,7 +59,7 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     public Transform lastParent;
     [HideInInspector]
     public ArtifactHolderUI lastHolder;
-    
+    [HideInInspector]
     public bool isPressed = false;
     #endregion
 
@@ -318,6 +325,39 @@ public class ArtifactBase : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
         }
 
     }
+
+    public List<ArtifactKeycode> GetAdjecentKeycodes()
+    {
+        return adjecentKeycodes;
+    }
+
+    #region Artifact Sets
+
+    public ArtifactSet GetCurrentArtifactSet()
+    {
+        return artifactSet;
+    }
+
+    public virtual bool ActivateSet(DynamicPlayerController playerController, ArtifactSet set, int numArtifacts)
+    {
+        switch (set)
+        {
+            case ArtifactSet.NONE:
+                break;
+            case ArtifactSet.GOLD:
+                numArtifactsInSet = numArtifacts;
+                setMultiplier = BASESETMULT + (0.5f * (numArtifactsInSet - 1));
+                Debug.LogFormat("SetMultiplier for {0}: {1}",name,setMultiplier);
+                
+                break;
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    #endregion
 
     #region Drag and Drop
 

@@ -48,10 +48,12 @@ public class ArtifactInventoryUI : MonoBehaviour, IDropHandler
 
     public void ReturnToInventory(PointerEventData eventData)
     {
-        KeyboardArtifactManager keyboard = eventData.pointerDrag.GetComponent<ArtifactBase>().lastHolder.GetComponentInParent<KeyboardArtifactManager>();
+        ArtifactHolderUI lastHolder = eventData.pointerDrag.GetComponent<ArtifactBase>().lastHolder;
+        KeyboardArtifactManager keyboard = lastHolder.GetComponentInParent<KeyboardArtifactManager>();
 
         if (keyboard)
         {
+            keyboard.GetPlayerController().ActivateArtifactSet(lastHolder.artifact.GetCurrentArtifactSet(), lastHolder.artifact, false);
             ArtifactHolderUI artifactHolder = Instantiate<ArtifactHolderUI>(artifactHolderUIPrefab, gameObject.transform);
             artifactHolder.OnDrop(eventData);
             artifactHolders.Add(artifactHolder);

@@ -32,7 +32,10 @@ public class ProjectileArtifact : ArtifactBase
             {
                 spawnedProjectile = Instantiate(projectilePrefab, playerController.projectileSpawnpoint.transform.position, Quaternion.identity);
                 spawnedProjectile.GetComponent<IProjectile>().playerProjectile = true;
-                float projectileSpeed = spawnedProjectile.GetComponent<ProjectileScript>().projectileSpeed;
+                ProjectileScript projectileScript = spawnedProjectile.GetComponent<ProjectileScript>();
+                int damage = Mathf.FloorToInt((float)projectileScript.GetDamage() * setMultiplier);
+                projectileScript.SetDamage(damage);
+                float projectileSpeed = projectileScript.projectileSpeed;
                 Vector2 direction = playerController.GetPlayerMovementDirection().normalized;
 
                 //direction *= Random.Range(-projectileAngleRandomness, projectileAngleRandomness);

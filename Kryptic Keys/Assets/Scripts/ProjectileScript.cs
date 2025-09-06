@@ -75,6 +75,15 @@ public class ProjectileScript : MonoBehaviour, IProjectile
         Destroy(gameObject);
     }
 
+    public void SetDamage(int dam)
+    {
+        damage = dam;
+    }
+    public int GetDamage()
+    {
+        return damage;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (playerProjectile)

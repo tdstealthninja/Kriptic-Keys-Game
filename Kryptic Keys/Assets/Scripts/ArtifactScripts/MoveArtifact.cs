@@ -22,23 +22,24 @@ public class MoveArtifact : ArtifactBase
         {
             MoveVelocity moveVelocity;
             moveVelocity.direction = moveDirection;
+            moveVelocity.canHover = canHoverOverHazard;
 
             switch (moveDirection)
             {
                 case MoveDirection.UP:
-                    moveVelocity.move = Vector2.up * movementSpeedMultiplyer;
+                    moveVelocity.move = Vector2.up * (movementSpeedMultiplyer * setMultiplier);
                     playerController.QueueMovement(moveVelocity, priority);
                     break;
                 case MoveDirection.DOWN:
-                    moveVelocity.move = Vector2.down * movementSpeedMultiplyer;
+                    moveVelocity.move = Vector2.down * (movementSpeedMultiplyer * setMultiplier);
                     playerController.QueueMovement(moveVelocity, priority);
                     break;
                 case MoveDirection.LEFT:
-                    moveVelocity.move = Vector2.left * movementSpeedMultiplyer;
+                    moveVelocity.move = Vector2.left * (movementSpeedMultiplyer * setMultiplier);
                     playerController.QueueMovement(moveVelocity, priority);
                     break;
                 case MoveDirection.RIGHT:
-                    moveVelocity.move = Vector2.right * movementSpeedMultiplyer;
+                    moveVelocity.move = Vector2.right * (movementSpeedMultiplyer * setMultiplier);
                     playerController.QueueMovement(moveVelocity, priority);
                     break;
                 default:
@@ -46,6 +47,13 @@ public class MoveArtifact : ArtifactBase
             }
         }
         
+    }
+
+
+
+    public bool CanMoveOverHazard()
+    {
+        return canHoverOverHazard;
     }
 
 }
@@ -62,7 +70,7 @@ public struct MoveVelocity
 {
     public Vector2 move;
     public MoveDirection direction;
-
+    public bool canHover;
     //public MoveVelocity(Vector2 vector2, MoveDirection direction)
     //{
     //    this.move = vector2;
